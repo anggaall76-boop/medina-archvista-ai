@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f8f6f2">
+<title>MedinaArchvista AI</title>
+<style>
+:root{--ink:#252629;--gold:#b99a78;--pale:#f4eee7;--line:#e7ded4;--muted:#77736e}
+*{box-sizing:border-box}body{margin:0;background:#f7f6f4;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+header{background:#fff;padding:15px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:12px;max-width:850px;margin:auto}
+.mark{font-family:Georgia,serif;font-size:34px;letter-spacing:-5px;border-right:1px solid var(--gold);padding-right:12px}.mark span{color:var(--gold)}
+.brandname{font-size:15px;letter-spacing:3px}.brandname small{display:block;font-size:10px;color:var(--gold);letter-spacing:4px;margin-top:4px}
+main{max-width:850px;margin:18px auto;padding:0 14px 90px}
+.title{background:linear-gradient(120deg,#fff,#f1e8de);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px}
+h1{font-size:23px;margin:0 0 6px}.sub{color:var(--muted);font-size:13px;line-height:1.5}
+.lock{display:inline-block;margin-top:12px;background:#e9ddcf;border-radius:30px;padding:8px 12px;font-size:12px;font-weight:bold}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.tabs button,.btn,select{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;color:var(--ink);font-weight:600}
+.tabs button.active{background:var(--ink);color:white;border-color:var(--ink)}
+.panel{background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px;margin:12px 0}
+label{display:block;font-size:13px;font-weight:bold;margin:0 0 7px}
+input[type=file]{width:100%;font-size:13px}
+.preview{margin-top:12px;min-height:170px;border:1px dashed #c9b9a8;border-radius:13px;background:#faf8f5;display:flex;align-items:center;justify-content:center;overflow:hidden;color:var(--muted);text-align:center;padding:10px}
+.preview img{max-width:100%;max-height:360px;object-fit:contain}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+select{width:100%;margin-top:7px}
+textarea{width:100%;min-height:100px;border:1px solid var(--line);border-radius:12px;padding:12px;font:14px Arial;resize:vertical}
+.actions{display:grid;grid-template-columns:1fr 1.5fr;gap:10px;margin-top:14px}
+.btn.primary{background:var(--gold);color:white;border-color:var(--gold)}
+.btn.dark{background:var(--ink);color:#fff}
+.btn:active,button:active{transform:scale(.99)}
+.note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:9px}
+#result{white-space:pre-wrap;display:none;background:#f8f6f2;border-radius:12px;padding:12px;font-size:12px;line-height:1.5;margin-top:12px;max-height:260px;overflow:auto}
+footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;gap:clamp(15px,6vw,55px);padding:9px 8px;z-index:5}
+footer button{border:0;background:transparent;font-size:11px;text-align:center;color:var(--muted);min-width:55px}footer b{display:block;color:var(--ink);font-size:17px;margin-bottom:3px}footer button.active{color:var(--gold);font-weight:bold}
+.project-card{border:1px solid var(--line);border-radius:17px;padding:14px;margin:14px 0;background:#fff;box-shadow:0 5px 18px rgba(37,38,41,.045)}.project-card h3{margin:0 0 5px;font-size:17px}.project-images{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.project-images img{width:100%;height:155px;object-fit:cover;border-radius:10px;background:#f4eee7;cursor:pointer}.project-images small{display:block;color:var(--muted);margin:4px 0;font-weight:bold}.project-badge{display:inline-block;background:#f2e9df;color:#73583e;border-radius:20px;padding:5px 9px;font-size:11px;font-weight:bold;margin:5px 0}.portfolio-tools{display:grid;grid-template-columns:1.3fr 1fr;gap:8px;margin:12px 0}.portfolio-tools input,.portfolio-tools select{margin:0}.image-modal{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:20;display:none;align-items:center;justify-content:center;padding:18px}.image-modal.open{display:flex}.image-modal img{max-width:100%;max-height:85vh;object-fit:contain;border-radius:8px}.image-modal button{position:absolute;top:16px;right:16px;background:#fff;border:0;border-radius:50%;width:40px;height:40px;font-size:22px}.form-control{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px;font:14px Arial;margin:0 0 12px}.hidden{display:none!important}
+@media(max-width:480px){.grid{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.brandname{font-size:13px}.title{padding:15px}}
+
+.home-premium{min-height:calc(100vh - 150px);display:flex;flex-direction:column;justify-content:center;padding:22px 4px}
+.hero-premium{background:linear-gradient(145deg,#171717,#292725);color:#f7f1e9;border:1px solid #806849;border-radius:24px;padding:28px 22px;text-align:center;box-shadow:0 18px 40px rgba(0,0,0,.12)}
+.hero-logo{font-family:Georgia,serif;font-size:56px;letter-spacing:-8px;color:#d4b17f;margin-bottom:12px}
+.hero-logo span{color:#f4eee7}
+.hero-premium h1{font-size:22px;letter-spacing:2px;margin:0}
+.hero-premium .gold-line{color:#d4b17f;font-size:11px;letter-spacing:4px;margin-top:8px}
+.hero-premium .slogan{font-family:Georgia,serif;font-style:italic;color:#e9d9c4;margin:22px 0 25px}
+.home-buttons{display:grid;gap:12px}
+.home-buttons button{border-radius:14px;padding:17px 15px;font-size:15px;font-weight:bold;letter-spacing:.5px;border:1px solid #b99a78}
+.home-buttons .home-render{background:#b99a78;color:#171717}
+.home-buttons .home-portfolio{background:transparent;color:#f7f1e9}
+.home-caption{color:#777;font-size:12px;text-align:center;margin-top:18px}
+.file-preview{display:block;width:100%;max-height:220px;object-fit:contain;border:1px solid #b99a61;border-radius:10px;margin:8px 0 14px;background:#171717}.file-preview.hidden{display:none}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="mark">M<span>D</span></div><div class="brandname">MEDINA<small>ARCHVISTA AI</small></div></div></header>
+<main>
+
+<section id="homePage" class="home-premium">
+  <div class="hero-premium">
+    <div class="hero-logo">M<span>D</span></div>
+    <h1>MEDINA ARCHVISTA AI</h1>
+    <div class="gold-line">ARCHITECTURAL VISUALIZATION</div>
+    <div class="slogan">Your Design. Your Vision. Realistic Results.</div>
+    <div class="home-buttons">
+      <button class="home-render" onclick="showPage('render')">✦ &nbsp; RENDER AI</button>
+      <button class="home-portfolio" onclick="showPage('portfolio')">▣ &nbsp; DIGITAL PORTFOLIO</button>
+    </div>
+  </div>
+  <div class="home-caption">Design visualization &amp; project showcase</div>
+</section>
+<div id="renderPage" class="hidden">
+<section class="title"><h1>Render AI</h1><div class="sub">Visualisasikan desain Anda dengan hasil yang lebih realistis.</div><div class="lock">🔒 DESAIN ASLI TETAP UTUH</div></section>
+<div class="tabs" role="tablist"><button class="active" data-mode="Exterior">Exterior</button><button data-mode="Interior">Interior</button><button data-mode="Denah">Denah</button></div>
+<section class="panel">
+<label for="imageInput">1. Upload gambar desain asli</label>
+<input id="imageInput" type="file" accept="image/*">
+<div class="preview" id="preview">Pratinjau gambar desain akan tampil di sini.</div>
+<div class="note">Gunakan gambar desain / screenshot SketchUp yang jelas. Gambar asli menjadi referensi utama.</div>
+</section>
+<section class="panel">
+<div class="grid">
+<div id="environmentWrap"><label for="environment">Lingkungan</label><select id="environment"><option>Alam tropis Indonesia</option><option>Perkotaan Indonesia</option><option>Perumahan mewah</option><option>Perumahan subsidi</option><option>Perkampungan Indonesia</option><option>Tanpa mengubah latar pada gambar</option></select></div>
+<div id="lightingWrap"><label for="lighting">Pencahayaan / waktu</label><select id="lighting"><option>Pagi</option><option>Siang</option><option>Sore / golden hour</option><option>Malam</option><option>Terang merata</option><option>Redup</option><option>Warm indoor lighting</option></select></div>
+<div id="weatherWrap"><label for="weather">Cuaca</label><select id="weather"><option>Cerah</option><option>Mendung</option><option>Hujan</option><option>Setelah hujan</option></select></div>
+<div><label for="style">Gaya visual</label><select id="style"><option>Fotorealistik seperti foto DSLR</option><option>Photorealistic architectural photography</option><option>Realistis natural, tidak berlebihan</option></select></div>
+</div>
+<div id="planWrap" style="display:none;margin-top:12px"><label for="planType">Jenis denah</label><select id="planType"><option>Denah 2D tampak atas realistis</option><option>Denah 3D tampak atas tanpa atap</option></select></div>
+</section>
+<section class="panel">
+<label for="customPrompt">2. Prompt tambahan dari Anda (opsional)</label>
+<textarea id="customPrompt" placeholder="Tulis sendiri instruksi tambahan yang Anda inginkan. AI tidak akan menambahkan instruksi kreatif di luar pilihan dan tulisan Anda."></textarea>
+<div class="note">Instruksi tambahan harus tetap mengikuti batasan desain asli dan tidak boleh mengubah elemen desain.</div>
+<div class="actions"><button class="btn" id="resetBtn">Reset</button><button class="btn primary" id="makeBtn">Buat Prompt Render</button></div>
+<div id="result"></div>
+<button class="btn dark" id="copyBtn" style="display:none;width:100%;margin-top:10px">Salin Prompt</button>
+<button class="btn primary" id="geminiBtn" style="display:none;width:100%;margin-top:10px">✦ Buka Gemini + Salin Prompt</button>
+<button class="btn dark" id="shareGeminiBtn" style="display:none;width:100%;margin-top:10px">📎 Bagikan Gambar + Prompt</button>
+<div id="geminiNote" class="note" style="display:none;margin-top:8px">Prompt disalin dan Gemini dibuka. Di Gemini, tempel prompt lalu lampirkan gambar desain asli secara manual.</div>
+</section>
+<section class="panel"><b>Catatan penting</b><p class="note">Ini adalah tahap awal antarmuka dan pembuat prompt. Tombol ini belum menghasilkan gambar AI secara langsung. Mesin render akan dihubungkan pada tahap berikutnya setelah layanan dan biaya (jika ada) disepakati. AI generatif juga tidak dapat menjamin kesamaan 100%, sehingga hasil tetap perlu diperiksa terhadap desain sumber.</p></section>
+</div>
+<section id="portfolioPage" class="hidden">
+ <section class="title"><h1>Digital Portfolio</h1><div class="sub">Simpan dokumentasi proyek desain dan hasil render Anda di perangkat ini.</div><div class="lock">▣ PORTFOLIO PRIBADI</div></section>
+ <section class="panel">
+  <h2 style="font-size:17px;margin:0 0 14px">Tambah Proyek</h2>
+  <label for="projectName">Nama proyek</label><input class="form-control" id="projectName" placeholder="Contoh: Rumah tinggal minimalis">
+  <label for="projectCategory">Kategori</label><select class="form-control" id="projectCategory"><option>Exterior</option><option>Interior</option><option>Denah</option></select>
+  <label for="projectDescription">Deskripsi proyek (opsional)</label><textarea class="form-control" id="projectDescription" placeholder="Catatan singkat tentang proyek..."></textarea>
+  <label for="originalFile">Gambar desain asli (BEFORE)</label><input class="form-control" type="file" id="originalFile" accept="image/*">
+  <div class="note" id="originalFileName">Belum ada gambar BEFORE dipilih.</div><img id="originalPreview" class="file-preview hidden" alt="Pratinjau BEFORE">
+  <label for="renderFile">Gambar hasil render (AFTER)</label><input class="form-control" type="file" id="renderFile" accept="image/*">
+  <div class="note" id="renderFileName">Belum ada gambar AFTER dipilih.</div><img id="renderPreview" class="file-preview hidden" alt="Pratinjau AFTER">
+  <div class="note">Pilih dua gambar untuk setiap proyek. Interior, Exterior, dan Denah akan disimpan sebagai proyek terpisah.</div>
+  <button class="btn primary" id="saveProject" style="width:100%;margin-top:12px">Simpan Proyek Baru</button><button class="btn hidden" id="cancelEdit" type="button" style="width:100%;margin-top:8px">Batal Edit</button>
+ </section>
+ <section class="panel"><h2 style="font-size:17px;margin:0 0 8px">Galeri Proyek</h2><div class="sub">Katalog karya Anda dalam tampilan Before &amp; After.</div><div class="portfolio-tools"><input class="form-control" id="searchProject" placeholder="Cari nama proyek..."><select class="form-control" id="filterCategory"><option value="Semua">Semua kategori</option><option>Exterior</option><option>Interior</option><option>Denah</option></select></div><div id="projectList"><p class="note">Belum ada proyek tersimpan.</p></div></section>
+ <section class="panel"><b>Info penyimpanan</b><p class="note">Data portfolio tersimpan secara lokal di browser pada HP ini. Jika browser dihapus datanya atau berganti HP, proyek mungkin tidak ikut berpindah. Simpan salinan gambar penting di galeri atau penyimpanan lain.</p></section>
+</section>
+</main>
+<div class="image-modal" id="imageModal"><button id="closeImage" aria-label="Tutup">×</button><img id="largeImage" alt="Pratinjau gambar besar"></div>
+<footer><button class="active" data-page="home"><b>⌂</b>Home</button><button data-page="render"><b>✦</b>Render</button><button data-page="portfolio"><b>▣</b>Portfolio</button></footer>
+<script>
+let mode='Exterior', sourceUrl='';
+const $=id=>document.getElementById(id);
+document.querySelectorAll('.tabs button').forEach(btn=>btn.addEventListener('click',()=>{
+ document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active'); mode=btn.dataset.mode;
+ $('environmentWrap').style.display=mode==='Exterior'?'block':'none';
+ $('weatherWrap').style.display=mode==='Exterior'?'block':'none';
+ $('lightingWrap').querySelector('label').textContent=mode==='Interior'?'Pencahayaan ruangan':'Pencahayaan / waktu';
+ $('planWrap').style.display=mode==='Denah'?'block':'none';
+}));
+$('imageInput').addEventListener('change',e=>{
+ const file=e.target.files[0]; if(!file)return;
+ if(sourceUrl)URL.revokeObjectURL(sourceUrl);
+ sourceUrl=URL.createObjectURL(file);
+ $('preview').innerHTML=''; const img=document.createElement('img');img.src=sourceUrl;$('preview').appendChild(img);
+});
+function buildPrompt(){
+ const lock='Pertahankan desain sumber sedekat mungkin. Jangan mengubah geometri, bentuk, dimensi, proporsi, tata letak, posisi pintu, jendela, dinding, kolom, tangga, atap, material, warna, atau sudut kamera. Jangan menambah, mengurangi, memindahkan, atau mengarang elemen desain. Gunakan gambar yang diunggah sebagai referensi utama.';
+ let parts=[lock, 'Jenis visualisasi: '+mode+'.'];
+ if(mode==='Exterior')parts.push('Lingkungan: '+$('environment').value+'.','Waktu/pencahayaan: '+$('lighting').value+'.','Cuaca: '+$('weather').value+'.');
+ if(mode==='Interior')parts.push('Pencahayaan interior: '+$('lighting').value+'.','Pertahankan konteks ruangan interior; jangan mengubahnya menjadi eksterior.');
+ if(mode==='Denah')parts.push('Tipe denah: '+$('planType').value+'.','Tampilkan tampak atas dengan jelas; untuk 3D, seluruh ruang terlihat dari atas tanpa atap.');
+ parts.push('Gaya visual: '+$('style').value+'.','Tingkatkan kualitas tekstur, pencahayaan, bayangan, dan detail visual tanpa mengubah desain.');
+ const custom=$('customPrompt').value.trim(); if(custom)parts.push('Instruksi tambahan dari pengguna (ikuti hanya sejauh tidak bertentangan dengan desain asli): '+custom);
+ return parts.join('\\n\\n');
+}
+$('makeBtn').addEventListener('click',()=>{if(!$('imageInput').files.length){alert('Silakan upload gambar desain asli terlebih dahulu.');return;} $('result').textContent=buildPrompt();$('result').style.display='block';$('copyBtn').style.display='block';$('geminiBtn').style.display='block';$('shareGeminiBtn').style.display='block';$('geminiNote').style.display='none';});
+async function copyRenderPrompt(){
+ const text=$('result').textContent;
+ if(!text.trim()){alert('Buat Prompt Render terlebih dahulu.');return false;}
+ // Clipboard API hanya tersedia pada konteks aman tertentu; gunakan fallback untuk file lokal/Android.
+ try{if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(text);$('copyBtn').textContent='Tersalin ✓';return true;}}catch(e){}
+ try{const box=document.createElement('textarea');box.value=text;box.setAttribute('readonly','');box.style.position='fixed';box.style.left='-9999px';box.style.top='0';document.body.appendChild(box);box.focus();box.select();box.setSelectionRange(0,box.value.length);const ok=document.execCommand('copy');document.body.removeChild(box);if(ok){$('copyBtn').textContent='Tersalin ✓';return true;}}catch(e){}
+ // Jika sistem Android menolak salin otomatis, pilih seluruh prompt agar pengguna tinggal tekan Salin.
+ const result=$('result');result.style.userSelect='text';const range=document.createRange();range.selectNodeContents(result);const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);alert('Salin otomatis dibatasi oleh browser. Prompt sudah dipilih: tekan Salin/Copy pada menu yang muncul.');return false;
+}
+$('copyBtn').addEventListener('click',copyRenderPrompt);
+$('geminiBtn').addEventListener('click',async()=>{
+ // Buka halaman Gemini langsung saat tombol disentuh agar tidak diblokir sebagai popup.
+ const geminiWindow=window.open('https://gemini.google.com/app','_blank');
+ const copied=await copyRenderPrompt();
+ $('geminiNote').style.display='block';
+ $('geminiNote').textContent=copied?'Prompt tersalin. Di Gemini, tekan kolom pesan lalu Tempel/Paste, kemudian lampirkan gambar desain asli.':'Gemini dibuka. Jika prompt belum tersalin, kembali ke aplikasi dan tekan Salin Prompt, lalu tempel di Gemini.';
+ if(!geminiWindow){$('geminiNote').textContent='Browser memblokir tab baru. Izinkan pop-up atau buka Gemini melalui aplikasi Gemini, lalu tempel prompt yang sudah disalin.';}
+});
+$('shareGeminiBtn').addEventListener('click',async()=>{
+ const file=$('imageInput').files[0];const prompt=$('result').textContent.trim();
+ if(!file||!prompt){alert('Upload gambar desain dan buat prompt terlebih dahulu.');return;}
+ // Salin prompt TERLEBIH DAHULU. Beberapa versi aplikasi Gemini hanya menerima file gambar dari menu Share dan mengabaikan teks yang ikut dibagikan.
+ const copied=await copyRenderPrompt();
+ const shareData={title:'MedinaArchvista AI - Gambar Desain',files:[file]};
+ try{
+  if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+   await navigator.share(shareData);
+   $('geminiNote').style.display='block';
+   $('geminiNote').textContent=copied?'Gambar sudah dibagikan. Di Gemini, tekan kolom pesan lalu pilih Tempel/Paste untuk memasukkan prompt yang sudah disalin.':'Gambar sudah dibagikan. Prompt belum tersalin otomatis; kembali ke aplikasi dan tekan Salin Prompt, lalu tempel di Gemini.';
+  }else{
+   const url=URL.createObjectURL(file);const a=document.createElement('a');a.href=url;a.download=file.name||'desain-asli';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+   window.open('https://gemini.google.com/app','_blank');
+   $('geminiNote').style.display='block';$('geminiNote').textContent=copied?'Gambar diunduh dan prompt disalin. Di Gemini, lampirkan gambar unduhan lalu tempel prompt.':'Gambar diunduh. Salin prompt dengan tombol Salin Prompt, lalu lampirkan gambar dan tempel prompt di Gemini.';
+  }
+ }catch(err){if(err.name!=='AbortError'){ $('geminiNote').style.display='block';$('geminiNote').textContent='Gambar tidak berhasil dibagikan. Gunakan Buka Gemini + Salin Prompt, lalu lampirkan gambar dan tempel prompt secara manual.'; }}
+});
+$('resetBtn').addEventListener('click',()=>{ $('imageInput').value='';if(sourceUrl)URL.revokeObjectURL(sourceUrl);sourceUrl='';$('preview').textContent='Pratinjau gambar desain akan tampil di sini.';$('customPrompt').value='';$('result').textContent='';$('result').style.display='none';$('copyBtn').style.display='none';$('geminiBtn').style.display='none';$('shareGeminiBtn').style.display='none';$('geminiNote').style.display='none';$('copyBtn').textContent='Salin Prompt';});
+// Navigasi halaman
+function showPage(page){$('homePage').classList.toggle('hidden',page!=='home');$('renderPage').classList.toggle('hidden',page!=='render');$('portfolioPage').classList.toggle('hidden',page!=='portfolio');document.querySelectorAll('footer button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));window.scrollTo(0,0);if(page==='portfolio')loadProjects();}
+document.querySelectorAll('footer button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+// Penyimpanan portfolio menggunakan IndexedDB agar gambar dapat disimpan lebih besar daripada localStorage.
+let portfolioDB;
+let editingProjectId=null;
+function openPortfolioDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open('MedinaArchvistaPortfolio',1);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('projects'))db.createObjectStore('projects',{keyPath:'id',autoIncrement:true});};req.onsuccess=()=>{portfolioDB=req.result;resolve(portfolioDB);};req.onerror=()=>reject(req.error);});}
+function clearPortfolioForm(){
+ editingProjectId=null;
+ $('projectName').value='';$('projectDescription').value='';
+ $('originalFile').value='';$('renderFile').value='';
+ $('originalFileName').textContent='Belum ada gambar BEFORE dipilih.';
+ $('renderFileName').textContent='Belum ada gambar AFTER dipilih.';
+ $('originalPreview').removeAttribute('src');$('originalPreview').classList.add('hidden');
+ $('renderPreview').removeAttribute('src');$('renderPreview').classList.add('hidden');
+ $('saveProject').textContent='Simpan Proyek Baru';
+ $('cancelEdit').classList.add('hidden');
+}
+function showSelectedFile(inputId,nameId,previewId){
+ const file=$(inputId).files && $(inputId).files[0];
+ if(!file)return;
+ $(nameId).textContent='Dipilih: '+file.name;
+ const preview=$(previewId);
+ if(preview.dataset.objectUrl)URL.revokeObjectURL(preview.dataset.objectUrl);
+ const url=URL.createObjectURL(file);preview.dataset.objectUrl=url;
+ preview.src=url;preview.classList.remove('hidden');
+}
+$('originalFile').addEventListener('change',()=>showSelectedFile('originalFile','originalFileName','originalPreview'));
+$('renderFile').addEventListener('change',()=>showSelectedFile('renderFile','renderFileName','renderPreview'));
+
+async function saveProject(){
+ const name=$('projectName').value.trim();
+ const original=$('originalFile').files[0];
+ const rendered=$('renderFile').files[0];
+ if(!name){alert('Isi nama proyek terlebih dahulu.');return;}
+ try{
+  const db=await openPortfolioDB();
+  let old=null;
+  if(editingProjectId!==null){
+   old=await new Promise((resolve,reject)=>{
+    const q=db.transaction('projects','readonly').objectStore('projects').get(editingProjectId);
+    q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(q.error);
+   });
+   if(!old){alert('Data proyek yang diedit tidak ditemukan. Silakan pilih Tambah Proyek Baru.');clearPortfolioForm();return;}
+  }
+  if(editingProjectId===null&&(!original||!rendered)){
+   alert('Pilih gambar BEFORE dan AFTER. Pastikan nama file tampil dan pratinjau gambar terlihat sebelum menyimpan.');
+   return;
+  }
+  const record={
+   name,
+   category:$('projectCategory').value,
+   description:$('projectDescription').value.trim(),
+   original:original||(old?old.original:null),
+   rendered:rendered||(old?old.rendered:null),
+   created:old?old.created:new Date().toISOString(),
+   updated:new Date().toISOString()
+  };
+  if(!record.original||!record.rendered){alert('Gambar BEFORE dan AFTER harus tersedia.');return;}
+  if(old)record.id=editingProjectId;
+  const tx=db.transaction('projects','readwrite');
+  const store=tx.objectStore('projects');
+  if(old)store.put(record);else store.add(record);
+  tx.oncomplete=()=>{
+   clearPortfolioForm();
+   alert('Proyek '+(old?'berhasil diperbarui':'baru berhasil disimpan')+' secara terpisah di perangkat ini.');
+   loadProjects();
+  };
+  tx.onerror=()=>alert('Gagal menyimpan. Periksa ruang penyimpanan perangkat.');
+ }catch(e){alert('Penyimpanan tidak tersedia pada browser ini.');}
+}
+async function editProject(id){
+ const db=await openPortfolioDB();
+ const req=db.transaction('projects','readonly').objectStore('projects').get(id);
+ req.onsuccess=()=>{
+  const x=req.result;if(!x)return;
+  editingProjectId=id;
+  $('projectName').value=x.name||'';
+  $('projectCategory').value=x.category||'Exterior';
+  $('projectDescription').value=x.description||'';
+  $('originalFile').value='';$('renderFile').value='';
+  $('originalFileName').textContent='Gambar BEFORE lama tetap tersimpan jika tidak diganti.';
+  $('renderFileName').textContent='Gambar AFTER lama tetap tersimpan jika tidak diganti.';
+  $('saveProject').textContent='Simpan Perubahan';
+  $('cancelEdit').classList.remove('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+ };
+}
+function cancelProjectEdit(){clearPortfolioForm();}
+$('cancelEdit').addEventListener('click',cancelProjectEdit);
+async function loadProjects(){const list=$('projectList');try{const db=await openPortfolioDB();const req=db.transaction('projects','readonly').objectStore('projects').getAll();req.onsuccess=()=>{let items=req.result.sort((a,b)=>b.id-a.id);const q=($('searchProject')?.value||'').toLowerCase();const cat=$('filterCategory')?.value||'Semua';items=items.filter(x=>(x.name||'').toLowerCase().includes(q)&&(cat==='Semua'||x.category===cat));list.innerHTML='';if(!items.length){list.innerHTML='<p class="note">Belum ada proyek yang cocok. Coba ubah pencarian atau kategori.</p>';return;}items.forEach(item=>{const card=document.createElement('article');card.className='project-card';const title=document.createElement('h3');title.textContent=item.name;const badge=document.createElement('span');badge.className='project-badge';badge.textContent=item.category;const meta=document.createElement('div');meta.className='note';meta.textContent='Ditambahkan · '+new Date(item.created).toLocaleDateString('id-ID');const desc=document.createElement('p');desc.className='note';desc.textContent=item.description||'Tidak ada deskripsi.';const imgs=document.createElement('div');imgs.className='project-images';[['BEFORE · Desain Asli',item.original],['AFTER · Hasil Render',item.rendered]].forEach(([label,blob])=>{const wrap=document.createElement('div'),small=document.createElement('small'),img=document.createElement('img');small.textContent=label;if(blob instanceof Blob){img.src=URL.createObjectURL(blob);}else{img.alt=label+' belum tersedia';img.style.display='none';}img.alt=label;img.addEventListener('click',()=>openLargeImage(img.src));wrap.append(small,img);imgs.append(wrap);});const actions=document.createElement('div');actions.style.display='grid';actions.style.gridTemplateColumns='1fr 1fr';actions.style.gap='8px';actions.style.marginTop='12px';const edit=document.createElement('button');edit.className='btn primary';edit.textContent='Edit proyek';edit.addEventListener('click',()=>editProject(item.id));const del=document.createElement('button');del.className='btn';del.textContent='Hapus proyek';del.addEventListener('click',()=>deleteProject(item.id));actions.append(edit,del);card.append(title,badge,meta,desc,imgs,actions);list.append(card);});};}catch(e){list.innerHTML='<p class="note">Tidak dapat membuka penyimpanan portfolio di browser ini.</p>';}}
+function openLargeImage(src){$('largeImage').src=src;$('imageModal').classList.add('open');}
+$('closeImage').addEventListener('click',()=>$('imageModal').classList.remove('open'));
+$('imageModal').addEventListener('click',e=>{if(e.target===$('imageModal'))$('imageModal').classList.remove('open');});
+$('searchProject').addEventListener('input',loadProjects);
+$('filterCategory').addEventListener('change',loadProjects);
+async function deleteProject(id){if(!confirm('Hapus proyek ini dari portfolio?'))return;const db=await openPortfolioDB();const tx=db.transaction('projects','readwrite');tx.objectStore('projects').delete(id);tx.oncomplete=loadProjects;}
+$('saveProject').addEventListener('click',saveProject);
+$('cancelEdit').addEventListener('click',cancelProjectEdit);
+
+</script>
+</body></html>
