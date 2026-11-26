@@ -1,6 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#101010">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f8f6f2">
@@ -53,6 +57,19 @@ footer button{border:0;background:transparent;font-size:11px;text-align:center;c
 .file-preview{display:block;width:100%;max-height:220px;object-fit:contain;border:1px solid #b99a61;border-radius:10px;margin:8px 0 14px;background:#171717}.file-preview.hidden{display:none}
 </style>
 </head>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
+    navigator.serviceWorker.register("./service-worker.js")
+      .then(function() {
+        console.log("Medina Studio Arch AI aktif");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  });
+}
+</script>
 <body>
 <header><div class="brand"><div class="mark">M<span>D</span></div><div class="brandname">MEDINA<small>ARCHVISTA AI</small></div></div></header>
 <main>
